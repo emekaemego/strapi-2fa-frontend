@@ -1,8 +1,6 @@
 "use client";
 
-import * as qrcode from "qrcode";
-import { useEffect, useState } from "react";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import { saveTotpSecret } from "../actions";
 import QRCode from "react-qr-code";
 
@@ -17,18 +15,10 @@ export default function Setup({
   secret: string;
   url: string;
 }) {
-  const [state, formAction] = useFormState(saveTotpSecret, initialState);
-  const [qrcodeUrl, setQrcodeUrl] = useState<string | null>();
-
-  useEffect(() => {
-    qrcode.toDataURL(url, (err, url) => {
-      setQrcodeUrl(url);
-    });
-  }, []);
+  const [state, formAction] = useActionState(saveTotpSecret, initialState);
 
   return (
     <>
-      {/* {qrcodeUrl && ( */}
       <div className="">
         <div
           className="flex flex-col items-center px-6 py-8 mt-8 
@@ -63,8 +53,6 @@ export default function Setup({
                   viewBox={`0 0 256 256`}
                 />
               </div>
-
-              {/* <Image src={qrcodeUrl} width={150} height={150} alt="qrcode" /> */}
 
               <div className="pt-4">
                 <p className="mb-2">
@@ -110,7 +98,6 @@ export default function Setup({
           </div>
         </div>
       </div>
-      {/* )} */}
     </>
   );
 }

@@ -1,10 +1,10 @@
 "use client";
 
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import { logout } from "../auth/actions";
 
 export default function NavBar({ isLoggedIn }: { isLoggedIn: boolean }) {
-  const [state, formAction] = useFormState(logout, null);
+  const [state, formAction] = useActionState(logout, null);
 
   return (
     <>

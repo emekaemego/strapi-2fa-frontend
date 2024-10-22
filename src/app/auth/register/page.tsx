@@ -1,5 +1,6 @@
 "use client";
-import { useFormState } from "react-dom";
+
+import { useActionState } from "react";
 import { register } from "../actions";
 
 const initialState = {
@@ -7,7 +8,7 @@ const initialState = {
 };
 
 export default function RegisterPage() {
-  const [state, formAction] = useFormState(register, initialState);
+  const [state, formAction] = useActionState(register, initialState);
 
   return (
     <>

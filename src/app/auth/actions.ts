@@ -1,15 +1,16 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { SessionData, defaultSession, sessionOptions } from "./lib";
 import { getIronSession } from "iron-session";
-import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 const API_URL = "http://localhost:1337/api";
 
 export async function getSession() {
-  const session = await getIronSession<SessionData>(cookies(), sessionOptions);
+  const useCookies = await cookies();
+  const session = await getIronSession<SessionData>(useCookies, sessionOptions);
 
   if (!session.isLoggedIn) {
     session.isLoggedIn = defaultSession.isLoggedIn;
@@ -62,6 +63,12 @@ export const login = async (prevState: any, formData: FormData) => {
   redirect(`/auth/verify-code?e=${json.email}&vt=${json.verifyType}`);
 };
 
+export async function logout() {
+  const session = await getSession();
+  session.destroy();
+  revalidatePath("/dashboard");
+}
+
 export const verifyCode = async (prevState: any, formData: FormData) => {
   const data = {
     email: formData.get("email"),
@@ -95,12 +102,6 @@ export const verifyCode = async (prevState: any, formData: FormData) => {
 
   redirect("/dashboard");
 };
-
-export async function logout() {
-  const session = await getSession();
-  session.destroy();
-  revalidatePath("/dashboard");
-}
 
 export async function generateSecret() {
   const session = await getSession();

@@ -33,10 +33,6 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NavBar isLoggedIn={session.isLoggedIn} />
-        {/* <nav className="flex justify-end gap-3 mr-5">
-          <a href="/auth/register">Register</a>
-          <a href="/auth/login">Sign In</a>
-        </nav> */}
         {children}
       </body>
     </html>

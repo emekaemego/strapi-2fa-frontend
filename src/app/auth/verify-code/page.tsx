@@ -1,5 +1,5 @@
 "use client";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import { verifyCode } from "../actions";
 import { useSearchParams } from "next/navigation";
 
@@ -13,7 +13,7 @@ export default function VerifyCodePage() {
   const verifyType = searchParams.get("vt") || "";
   const typeTitle = verifyType === "otp" ? "OTP" : "Authenticator app";
 
-  const [state, formAction] = useFormState(verifyCode, initialState);
+  const [state, formAction] = useActionState(verifyCode, initialState);
 
   return (
     <>
